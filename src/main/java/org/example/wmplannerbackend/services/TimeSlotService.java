@@ -152,11 +152,9 @@ public class TimeSlotService {
             List<TimeSlotDto> currentTimeslots = Objects.requireNonNull(snapshot.toObject(CardDto.class)).timeSlots;
             TimeSlotDto target = getTarget(currentTimeslots, timeSlotID);
 
-            if(!target.userIDs.contains(userID)){
-                throw new UserNotExistException(userID);
+            if(target.userIDs != null && !target.userIDs.isEmpty()){
+                target.userIDs.remove((Integer) userID);
             }
-
-            target.userIDs.remove((Integer) userID);
 
             cardRef.update("timeSlots", currentTimeslots).get();
             return target;
