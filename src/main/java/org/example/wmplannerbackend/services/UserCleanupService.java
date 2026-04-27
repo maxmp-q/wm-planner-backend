@@ -22,7 +22,9 @@ public class UserCleanupService {
 
         for (CardDto card : allCards) {
             for (TimeSlotDto timeSlot : card.timeSlots) {
-                timeSlotService.removeUser(card.id, timeSlot.id, userID);
+                if(timeSlot.userIDs != null && timeSlot.userIDs.contains(userID)){
+                    timeSlotService.removeUser(card.id, timeSlot.id, userID);
+                }
             }
         }
     }
