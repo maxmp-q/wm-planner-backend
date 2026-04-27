@@ -8,7 +8,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistException.class)
-    public ResponseEntity<String> handleUser(UserAlreadyExistException e) {
+    public ResponseEntity<String> handleUserExist(UserAlreadyExistException e) {
+        return ResponseEntity.status(409).body(e.getMessage());
+    }
+
+    @ExceptionHandler(UserNotExistException.class)
+    public ResponseEntity<String> handleUserNotExist(UserNotExistException e) {
+        return ResponseEntity.status(409).body(e.getMessage());
+    }
+
+    @ExceptionHandler(CardAlreadyExistException.class)
+    public ResponseEntity<String> handleCardExist(CardAlreadyExistException e) {
+        return ResponseEntity.status(409).body(e.getMessage());
+    }
+
+    @ExceptionHandler(CardNotExistException.class)
+    public ResponseEntity<String> handleCardNotExist(CardNotExistException e) {
         return ResponseEntity.status(409).body(e.getMessage());
     }
 

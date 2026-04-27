@@ -51,8 +51,10 @@ public class UserService {
 
             docRef.set(user);
             return user;
+        } catch(UserAlreadyExistException e){
+            throw e;
         } catch(Exception e){
-            throw new RuntimeException("Failed to create user with exception: %s".formatted(e.getMessage()));
+            throw new RuntimeException("Failed to create user: %s".formatted(e.getMessage()));
         }
     }
 
@@ -69,8 +71,10 @@ public class UserService {
             } else {
                 throw new UserNotExistException(userID);
             }
+        } catch (UserNotExistException e){
+            throw e;
         } catch(Exception e){
-            throw new RuntimeException("Failed to delete user with exception: %s".formatted(e.getMessage()));
+            throw new RuntimeException("Failed to delete user: %s".formatted(e.getMessage()));
         }
     }
 

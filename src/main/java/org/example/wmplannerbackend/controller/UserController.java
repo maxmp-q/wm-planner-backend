@@ -16,20 +16,20 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping("/getAllUsers")
+    @GetMapping()
     public List<UserDto> getAll() {
         return service.getAllUsers();
     }
 
-    @PostMapping("/createUser")
+    @PostMapping()
     public ResponseEntity<UserDto> create(@RequestBody UserDto user) {
         UserDto createdUser =  service.createUser(user);
         return ResponseEntity.status(201).body(createdUser);
     }
 
-    @DeleteMapping("/deleteUser")
-    public ResponseEntity<Void> delete(@RequestBody UserDto user){
-        service.deleteUser(user.id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable int id){
+        service.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
 }
