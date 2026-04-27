@@ -32,8 +32,8 @@ public class CardController {
             @PathVariable int id,
             @RequestBody CardDto card
     ){
-        CardDto created = cardService.renameCard(card);
-        return ResponseEntity.status(201).body(created);
+        CardDto updated = cardService.renameCard(card);
+        return ResponseEntity.status(200).body(updated);
     }
 
     @DeleteMapping("/{id}")

@@ -1,6 +1,7 @@
 package org.example.wmplannerbackend.controller;
 
 import org.example.wmplannerbackend.interfaces.UserDto;
+import org.example.wmplannerbackend.services.UserCleanupService;
 import org.example.wmplannerbackend.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +12,11 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     private final UserService service;
+    private final UserCleanupService cleanupService;
 
-    public UserController(UserService service) {
+    public UserController(UserService service, UserCleanupService cleanupService) {
         this.service = service;
+        this.cleanupService = cleanupService;
     }
 
     @GetMapping()
@@ -30,6 +33,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id){
         service.deleteUser(id);
+        cleanupService.removeUserFromAllCards(id);
         return ResponseEntity.noContent().build();
     }
 }
