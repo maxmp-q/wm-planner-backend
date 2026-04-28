@@ -24,20 +24,20 @@ public class TimeSlotController {
         return ResponseEntity.status(201).body(created);
     }
 
-    @PatchMapping("/{timeID}")
+    @PatchMapping
     public ResponseEntity<TimeSlotDto> renameTimeSlot(
             @PathVariable int cardID,
-            @PathVariable int timeID,
+            @RequestParam int timeID,
             @RequestBody TimeSlotDto timeSlot
     ){
         TimeSlotDto updated = timeSlotService.renameTimeSlot(cardID, timeSlot);
         return ResponseEntity.status(200).body(updated);
     }
 
-    @DeleteMapping("/{timeID}")
+    @DeleteMapping
     public ResponseEntity<TimeSlotDto> deleteTimeSlot(
             @PathVariable int cardID,
-            @PathVariable int timeID
+            @RequestParam int timeID
     ){
         timeSlotService.deleteTimeSlot(cardID, timeID);
         return ResponseEntity.noContent().build();
@@ -46,20 +46,20 @@ public class TimeSlotController {
     @PatchMapping("/addUser")
     public ResponseEntity<TimeSlotDto> addUserToTimeSlot(
             @PathVariable int cardID,
-            @RequestParam int timeSlotID,
-            @RequestParam int userID
+            @RequestParam int timeID,
+            @RequestBody int userID
     ){
-        TimeSlotDto updated = timeSlotService.addUser(cardID, timeSlotID, userID);
+        TimeSlotDto updated = timeSlotService.addUser(cardID, timeID, userID);
         return ResponseEntity.status(200).body(updated);
     }
 
     @PatchMapping("/removeUser")
     public ResponseEntity<TimeSlotDto> removeUserFromTimeSlot(
             @PathVariable int cardID,
-            @RequestParam int timeSlotID,
-            @RequestParam int userID
+            @RequestParam int timeID,
+            @RequestBody int userID
     ){
-        TimeSlotDto updated = timeSlotService.removeUser(cardID, timeSlotID, userID);
+        TimeSlotDto updated = timeSlotService.removeUser(cardID, timeID, userID);
         return ResponseEntity.status(200).body(updated);
     }
 }
