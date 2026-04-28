@@ -30,8 +30,8 @@ public class UserController {
         return ResponseEntity.status(201).body(createdUser);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id){
+    @DeleteMapping
+    public ResponseEntity<Void> delete(@RequestParam int id){
         service.deleteUser(id);
         cleanupService.removeUserFromAllCards(id);
         return ResponseEntity.noContent().build();

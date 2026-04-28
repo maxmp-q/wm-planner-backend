@@ -27,17 +27,17 @@ public class CardController {
         return ResponseEntity.status(201).body(created);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping
     public ResponseEntity<CardDto> renameCard(
-            @PathVariable int id,
+            @RequestParam int id,
             @RequestBody CardDto card
     ){
         CardDto updated = cardService.renameCard(card);
         return ResponseEntity.status(200).body(updated);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCard(@PathVariable int id){
+    @DeleteMapping
+    public ResponseEntity<Void> deleteCard(@RequestParam int id){
         cardService.deleteCard(id);
         return ResponseEntity.noContent().build();
     }
