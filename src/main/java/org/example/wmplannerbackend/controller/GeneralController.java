@@ -1,5 +1,6 @@
 package org.example.wmplannerbackend.controller;
 
+import org.example.wmplannerbackend.interfaces.HeadingDto;
 import org.example.wmplannerbackend.services.GeneralService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,7 @@ public class GeneralController {
     }
 
     @GetMapping("/heading")
-    public ResponseEntity<String> getHeading(){
+    public ResponseEntity<HeadingDto> getHeading(){
         return ResponseEntity.status(200).body(generalService.getHeading());
     }
 }

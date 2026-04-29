@@ -16,7 +16,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Boolean> login(@RequestParam String password){
+    public ResponseEntity<Boolean> login(@RequestBody String password){
         boolean login = authService.login(password);
         return ResponseEntity.status(200).body(login);
     }
