@@ -6,7 +6,9 @@ import com.google.firebase.FirebaseOptions;
 import org.springframework.context.annotation.Configuration;
 
 import jakarta.annotation.PostConstruct;
-import java.io.FileInputStream;
+
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 @Configuration
 public class FirebaseConfig {
@@ -14,11 +16,19 @@ public class FirebaseConfig {
     @PostConstruct
     public void init() {
         try {
-            FileInputStream serviceAccount =
-                    new FileInputStream("C:/secrets/serviceAccountKey.json");
+            String firebaseConfig = System.getenv("FIREBASE_CONFIG");
+
+            if(firebaseConfig == null || firebaseConfig.isEmpty()){
+                throw new IllegalStateException("FIREBASE_CONFIG is not set");
+            }
+
 
             FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .setCredentials(
+                            GoogleCredentials.fromStream(
+                                    new ByteArrayInputStream(firebaseConfig.getBytes(StandardCharsets.UTF_8))
+                            )
+                    )
                     .build();
 
             FirebaseApp.initializeApp(options);
