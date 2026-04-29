@@ -9,6 +9,7 @@ import org.example.wmplannerbackend.interfaces.CardDto;
 import org.example.wmplannerbackend.interfaces.TimeSlotDto;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -124,6 +125,10 @@ public class TimeSlotService {
 
             List<TimeSlotDto> currentTimeslots = Objects.requireNonNull(snapshot.toObject(CardDto.class)).timeSlots;
             TimeSlotDto target = getTarget(currentTimeslots, timeSlotID);
+
+            if(target.userIDs == null){
+                target.userIDs = new ArrayList<>();
+            }
 
             if(target.userIDs.contains(userID)){
                 throw new UserAlreadyExistException(userID);
