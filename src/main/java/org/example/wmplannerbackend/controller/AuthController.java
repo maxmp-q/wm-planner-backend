@@ -1,5 +1,6 @@
 package org.example.wmplannerbackend.controller;
 
+import org.example.wmplannerbackend.interfaces.AuthResponseDto;
 import org.example.wmplannerbackend.interfaces.LoginDto;
 import org.example.wmplannerbackend.services.AuthService;
 import org.example.wmplannerbackend.services.JwtService;
@@ -20,9 +21,16 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Boolean> login(@RequestBody LoginDto loginDto){
-        boolean login = authService.login(loginDto);
-        return ResponseEntity.status(200).body(login);
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto){
+        boolean valid = authService.login(loginDto);
+
+        if (!valid) {
+            return ResponseEntity.status(401).body("Invalid password");
+        }
+
+        String token = jwtService.generateToken();
+
+        return ResponseEntity.status(200).body(new AuthResponseDto(token));
     }
 
 //    @GetMapping("/test")
