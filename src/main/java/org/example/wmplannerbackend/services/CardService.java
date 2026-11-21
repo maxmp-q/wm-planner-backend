@@ -7,13 +7,18 @@ import com.google.firebase.cloud.FirestoreClient;
 import org.example.wmplannerbackend.exceptions.CardAlreadyExistException;
 import org.example.wmplannerbackend.exceptions.CardNotExistException;
 import org.example.wmplannerbackend.interfaces.CardDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CardService {
     private final Firestore db = FirestoreClient.getFirestore();
+
+    private static final Logger log = LoggerFactory.getLogger(CardService.class);
 
     public List<CardDto> getAllCards(){
         try{
@@ -56,8 +61,10 @@ public class CardService {
             if (!snapshot.exists()) {
                 throw new CardNotExistException(card.id);
             }
+            String oldName = Objects.requireNonNull(docRef.get().get().toObject(CardDto.class)).title;
 
             docRef.update("title", card.title).get();
+            log.info("Card :{} was renamed to {} successfully!", oldName, card.title);
             return card;
         } catch(CardNotExistException e){
             throw e;

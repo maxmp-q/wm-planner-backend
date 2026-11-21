@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
     private final JwtService jwtService;
-//    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
 
     public AuthController(AuthService authService, JwtService jwtService){
         this.authService = authService;
@@ -29,12 +27,6 @@ public class AuthController {
         }
 
         String token = jwtService.generateToken();
-
         return ResponseEntity.status(200).body(new AuthResponseDto(token));
     }
-
-//    @GetMapping("/test")
-//    public ResponseEntity<String> loginTest(){
-//        return ResponseEntity.status(200).body(encoder.encode(""));
-//    }
 }

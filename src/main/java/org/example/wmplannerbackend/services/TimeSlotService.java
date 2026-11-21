@@ -7,6 +7,8 @@ import com.google.firebase.cloud.FirestoreClient;
 import org.example.wmplannerbackend.exceptions.*;
 import org.example.wmplannerbackend.interfaces.CardDto;
 import org.example.wmplannerbackend.interfaces.TimeSlotDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ import java.util.Objects;
 public class TimeSlotService {
     private final Firestore db = FirestoreClient.getFirestore();
     private final UserService userService;
+
+    private static final Logger log = LoggerFactory.getLogger(TimeSlotService.class);
 
     public TimeSlotService(UserService userService){
         this.userService = userService;
@@ -137,6 +141,7 @@ public class TimeSlotService {
             target.userIDs.add(userID);
 
             cardRef.update("timeSlots", currentTimeslots).get();
+            log.info("Add user with id: {} to timeslot {}", userID, target.time);
             return target;
         } catch (TimeSlotNotExistException |
                  CardNotExistException |
@@ -162,6 +167,7 @@ public class TimeSlotService {
             }
 
             cardRef.update("timeSlots", currentTimeslots).get();
+            log.info("Remove user with id: {} to timeslot {}", userID, target.time);
             return target;
         } catch (TimeSlotNotExistException | CardNotExistException | UserNotExistException e) {
             throw e;
