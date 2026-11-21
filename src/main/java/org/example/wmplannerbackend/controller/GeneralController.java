@@ -1,6 +1,7 @@
 package org.example.wmplannerbackend.controller;
 
 import org.example.wmplannerbackend.interfaces.HeadingDto;
+import org.example.wmplannerbackend.interfaces.InfoMessageDTO;
 import org.example.wmplannerbackend.services.GeneralService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,11 @@ public class GeneralController {
 
     public GeneralController(GeneralService generalService){
         this.generalService = generalService;
+    }
+
+    @GetMapping("/start")
+    public ResponseEntity<InfoMessageDTO> startServer() {
+        return ResponseEntity.ok(new InfoMessageDTO("Server started."));
     }
 
     @GetMapping("/heading")
